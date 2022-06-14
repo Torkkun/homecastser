@@ -11,6 +11,11 @@ func Serve(addr string) {
 	ctx := context.Background()
 	cast := cast.NewHomecast(ctx)
 	http.HandleFunc("/", post(HandleTextToSpeeachFunc(ctx, cast)))
+	defer func() {
+		for _, device := range cast.Devices {
+			device.Close()
+		}
+	}()
 	log.Println("Server running...")
 	if err := http.ListenAndServe(addr, nil); err != nil {
 		log.Fatalf("Listen and serve failed. %+v", err)

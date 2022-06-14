@@ -33,10 +33,5 @@ func HandleTextToSpeeachFunc(ctx context.Context, cast *cast.NewDevice) http.Han
 				log.Printf("[ERROR] Failed to speak: %v", err)
 			}
 		}
-		defer func() {
-			for _, device := range cast.Devices {
-				device.Close()
-			}
-		}()
 	}
 }
